@@ -42,7 +42,7 @@ class statsbestcustomers extends ModuleGrid
     {
         $this->name = 'statsbestcustomers';
         $this->tab = 'analytics_stats';
-        $this->version = '1.5.0';
+        $this->version = '2.0.0';
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
 
@@ -50,53 +50,53 @@ class statsbestcustomers extends ModuleGrid
 
         $this->default_sort_column = 'totalMoneySpent';
         $this->default_sort_direction = 'DESC';
-        $this->empty_message = $this->l('Empty recordset returned');
-        $this->paging_message = sprintf($this->l('Displaying %1$s of %2$s'), '{0} - {1}', '{2}');
+        $this->empty_message = $this->trans('Empty recordset returned', array(), 'Modules.Statsbestcustomers.Admin');
+        $this->paging_message = $this->trans('Displaying %1$s of %2$s', array('{0} - {1}', '{2}'), 'Admin.Global');
 
         $currency = new Currency(Configuration::get('PS_CURRENCY_DEFAULT'));
 
         $this->columns = array(
             array(
                 'id' => 'lastname',
-                'header' => $this->l('Last Name'),
+                'header' => $this->trans('Last Name', array(), 'Admin.Global'),
                 'dataIndex' => 'lastname',
                 'align' => 'center'
             ),
             array(
                 'id' => 'firstname',
-                'header' => $this->l('First Name'),
+                'header' => $this->trans('First Name', array(), 'Admin.Global'),
                 'dataIndex' => 'firstname',
                 'align' => 'center'
             ),
             array(
                 'id' => 'email',
-                'header' => $this->l('Email'),
+                'header' => $this->trans('Email', array(), 'Admin.Global'),
                 'dataIndex' => 'email',
                 'align' => 'center'
             ),
             array(
                 'id' => 'totalVisits',
-                'header' => $this->l('Visits'),
+                'header' => $this->trans('Visits', array(), 'Admin.ShopParameters.Feature'),
                 'dataIndex' => 'totalVisits',
                 'align' => 'center'
             ),
             array(
                 'id' => 'totalValidOrders',
-                'header' => $this->l('Valid orders'),
+                'header' => $this->trans('Valid orders', array(), 'Modules.Statsbestcustomers.Admin'),
                 'dataIndex' => 'totalValidOrders',
                 'align' => 'center'
             ),
             array(
                 'id' => 'totalMoneySpent',
-                'header' => $this->l('Money spent').' ('.Tools::safeOutput($currency->iso_code).')',
+                'header' => $this->trans('Money spent', array(), 'Modules.Statsbestcustomers.Admin').' ('.Tools::safeOutput($currency->iso_code).')',
                 'dataIndex' => 'totalMoneySpent',
                 'align' => 'center'
             )
         );
 
-        $this->displayName = $this->l('Best customers');
-        $this->description = $this->l('Adds a list of the best customers to the Stats dashboard.');
-        $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
+        $this->displayName = $this->trans('Best customers', array(), 'Modules.Statsbestcustomers.Admin');
+        $this->description = $this->trans('Adds a list of the best customers to the Stats dashboard.', array(), 'Modules.Statsbestcustomers.Admin');
+        $this->ps_versions_compliancy = array('min' => '1.7.0.0', 'max' => _PS_VERSION_);
     }
 
     public function install()
@@ -124,23 +124,23 @@ class statsbestcustomers extends ModuleGrid
 		<div class="panel-heading">
 			'.$this->displayName.'
 		</div>
-		<h4>'.$this->l('Guide').'</h4>
+		<h4>'.$this->trans('Guide', array(), 'Admin.Global').'</h4>
 			<div class="alert alert-warning">
-				<h4>'.$this->l('Develop clients\' loyalty').'</h4>
+				<h4>'.$this->trans('Develop clients\' loyalty', array(), 'Modules.Statsbestcustomers.Admin').'</h4>
 				<div>
-					'.$this->l('Keeping a client can be more profitable than gaining a new one. That is one of the many reasons it is necessary to cultivate customer loyalty.').' <br />
-					'.$this->l('Word of mouth is also a means for getting new, satisfied clients. A dissatisfied customer can hurt your e-reputation and obstruct future sales goals.').'<br />
-					'.$this->l('In order to achieve this goal, you can organize:').'
+					'.$this->trans('Keeping a client can be more profitable than gaining a new one. That is one of the many reasons it is necessary to cultivate customer loyalty.', array(), 'Modules.Statsbestcustomers.Admin').' <br />
+					'.$this->trans('Word of mouth is also a means for getting new, satisfied clients. A dissatisfied customer can hurt your e-reputation and obstruct future sales goals.', array(), 'Modules.Statsbestcustomers.Admin').'<br />
+					'.$this->trans('In order to achieve this goal, you can organize:', array(), 'Modules.Statsbestcustomers.Admin').'
 					<ul>
-						<li>'.$this->l('Punctual operations: commercial rewards (personalized special offers, product or service offered), non commercial rewards (priority handling of an order or a product), pecuniary rewards (bonds, discount coupons, payback).').'</li>
-						<li>'.$this->l('Sustainable operations: loyalty points or cards, which not only justify communication between merchant and client, but also offer advantages to clients (private offers, discounts).').'</li>
+						<li>'.$this->trans('Punctual operations: commercial rewards (personalized special offers, product or service offered), non commercial rewards (priority handling of an order or a product), pecuniary rewards (bonds, discount coupons, payback).', array(), 'Modules.Statsbestcustomers.Admin').'</li>
+						<li>'.$this->trans('Sustainable operations: loyalty points or cards, which not only justify communication between merchant and client, but also offer advantages to clients (private offers, discounts).', array(), 'Modules.Statsbestcustomers.Admin').'</li>
 					</ul>
-					'.$this->l('These operations encourage clients to buy products and visit your online store more regularly.').'
+					'.$this->trans('These operations encourage clients to buy products and visit your online store more regularly.', array(), 'Modules.Statsbestcustomers.Admin').'
 				</div>
 			</div>
 		'.$this->engine($engine_params).'
 		<a class="btn btn-default export-csv" href="'.Tools::safeOutput($_SERVER['REQUEST_URI'].'&export=').'1">
-			<i class="icon-cloud-upload"></i> '.$this->l('CSV Export').'
+			<i class="icon-cloud-upload"></i> '.$this->trans('CSV Export', array(), 'Admin.Global').'
 		</a>';
 
         return $this->html;
