@@ -95,7 +95,7 @@ class StatsBestCustomers extends ModuleGrid
 
 		$this->displayName = $this->l('Best customers');
 		$this->description = $this->l('Adds a list of the best customers to the Stats dashboard.');
-		$this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
+		$this->ps_versions_compliancy = array('min' => '1.6', 'max' => '1.7.0.99');
 	}
 
 	public function install()
