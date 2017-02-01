@@ -76,7 +76,7 @@ class statsbestcustomers extends ModuleGrid
             ),
             array(
                 'id' => 'totalVisits',
-                'header' => $this->trans('Visits', array(), 'Admin.ShopParameters.Feature'),
+                'header' => $this->trans('Visits', array(), 'Admin.Shopparameters.Feature'),
                 'dataIndex' => 'totalVisits',
                 'align' => 'center'
             ),
