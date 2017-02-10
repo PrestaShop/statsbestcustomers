@@ -172,7 +172,7 @@ class statsbestcustomers extends ModuleGrid
 		LEFT JOIN `'._DB_PREFIX_.'connections` co ON g.`id_guest` = co.`id_guest`
 		WHERE co.date_add BETWEEN '.$this->getDate()
             .Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'c').
-            'GROUP BY c.`id_customer`, c.`lastname`, c.`firstname`, c.`email`';
+            ' GROUP BY c.`id_customer`, c.`lastname`, c.`firstname`, c.`email`';
 
         if (Validate::IsName($this->_sort)) {
             $this->query .= ' ORDER BY `'.bqSQL($this->_sort).'`';
@@ -188,4 +188,5 @@ class statsbestcustomers extends ModuleGrid
         $this->_values = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($this->query);
         $this->_totalCount = Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue('SELECT FOUND_ROWS()');
     }
+
 }
