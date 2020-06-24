@@ -20,107 +20,107 @@
 *
 *  @author PrestaShop SA <contact@prestashop.com>
 *  @copyright  2007-2015 PrestaShop SA
-*  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*  @license	http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
 
 if (!defined('_PS_VERSION_')) {
-    exit;
+	exit;
 }
 
 class statsbestcustomers extends ModuleGrid
 {
-    private $html;
-    private $query;
-    private $columns;
-    private $default_sort_column;
-    private $default_sort_direction;
-    private $empty_message;
-    private $paging_message;
+	private $html;
+	private $query;
+	private $columns;
+	private $default_sort_column;
+	private $default_sort_direction;
+	private $empty_message;
+	private $paging_message;
 
-    public function __construct()
-    {
-        $this->name = 'statsbestcustomers';
-        $this->tab = 'analytics_stats';
-        $this->version = '2.0.2';
-        $this->author = 'PrestaShop';
-        $this->need_instance = 0;
+	public function __construct()
+	{
+		$this->name = 'statsbestcustomers';
+		$this->tab = 'analytics_stats';
+		$this->version = '2.0.2';
+		$this->author = 'PrestaShop';
+		$this->need_instance = 0;
 
-        parent::__construct();
+		parent::__construct();
 
-        $this->default_sort_column = 'totalMoneySpent';
-        $this->default_sort_direction = 'DESC';
-        $this->empty_message = $this->trans('Empty recordset returned', array(), 'Modules.Statsbestcustomers.Admin');
-        $this->paging_message = $this->trans('Displaying %1$s of %2$s', array('{0} - {1}', '{2}'), 'Admin.Global');
+		$this->default_sort_column = 'totalMoneySpent';
+		$this->default_sort_direction = 'DESC';
+		$this->empty_message = $this->trans('Empty recordset returned', array(), 'Modules.Statsbestcustomers.Admin');
+		$this->paging_message = $this->trans('Displaying %1$s of %2$s', array('{0} - {1}', '{2}'), 'Admin.Global');
 
-        $currency = new Currency(Configuration::get('PS_CURRENCY_DEFAULT'));
+		$currency = new Currency(Configuration::get('PS_CURRENCY_DEFAULT'));
 
-        $this->columns = array(
-            array(
-                'id' => 'lastname',
-                'header' => $this->trans('Last Name', array(), 'Admin.Global'),
-                'dataIndex' => 'lastname',
-                'align' => 'center'
-            ),
-            array(
-                'id' => 'firstname',
-                'header' => $this->trans('First Name', array(), 'Admin.Global'),
-                'dataIndex' => 'firstname',
-                'align' => 'center'
-            ),
-            array(
-                'id' => 'email',
-                'header' => $this->trans('Email', array(), 'Admin.Global'),
-                'dataIndex' => 'email',
-                'align' => 'center'
-            ),
-            array(
-                'id' => 'totalVisits',
-                'header' => $this->trans('Visits', array(), 'Admin.Shopparameters.Feature'),
-                'dataIndex' => 'totalVisits',
-                'align' => 'center'
-            ),
-            array(
-                'id' => 'totalValidOrders',
-                'header' => $this->trans('Valid orders', array(), 'Modules.Statsbestcustomers.Admin'),
-                'dataIndex' => 'totalValidOrders',
-                'align' => 'center'
-            ),
-            array(
-                'id' => 'totalMoneySpent',
-                'header' => $this->trans('Money spent', array(), 'Modules.Statsbestcustomers.Admin').' ('.Tools::safeOutput($currency->iso_code).')',
-                'dataIndex' => 'totalMoneySpent',
-                'align' => 'center'
-            )
-        );
+		$this->columns = array(
+			array(
+				'id' => 'lastname',
+				'header' => $this->trans('Last Name', array(), 'Admin.Global'),
+				'dataIndex' => 'lastname',
+				'align' => 'center'
+			),
+			array(
+				'id' => 'firstname',
+				'header' => $this->trans('First Name', array(), 'Admin.Global'),
+				'dataIndex' => 'firstname',
+				'align' => 'center'
+			),
+			array(
+				'id' => 'email',
+				'header' => $this->trans('Email', array(), 'Admin.Global'),
+				'dataIndex' => 'email',
+				'align' => 'center'
+			),
+			array(
+				'id' => 'totalVisits',
+				'header' => $this->trans('Visits', array(), 'Admin.Shopparameters.Feature'),
+				'dataIndex' => 'totalVisits',
+				'align' => 'center'
+			),
+			array(
+				'id' => 'totalValidOrders',
+				'header' => $this->trans('Valid orders', array(), 'Modules.Statsbestcustomers.Admin'),
+				'dataIndex' => 'totalValidOrders',
+				'align' => 'center'
+			),
+			array(
+				'id' => 'totalMoneySpent',
+				'header' => $this->trans('Money spent', array(), 'Modules.Statsbestcustomers.Admin').' ('.Tools::safeOutput($currency->iso_code).')',
+				'dataIndex' => 'totalMoneySpent',
+				'align' => 'center'
+			)
+		);
 
-        $this->displayName = $this->trans('Best customers', array(), 'Modules.Statsbestcustomers.Admin');
-        $this->description = $this->trans('Adds a list of the best customers to the Stats dashboard.', array(), 'Modules.Statsbestcustomers.Admin');
-        $this->ps_versions_compliancy = array('min' => '1.7.1.0', 'max' => _PS_VERSION_);
-    }
+		$this->displayName = $this->trans('Best customers', array(), 'Modules.Statsbestcustomers.Admin');
+		$this->description = $this->trans('Adds a list of the best customers to the Stats dashboard.', array(), 'Modules.Statsbestcustomers.Admin');
+		$this->ps_versions_compliancy = array('min' => '1.7.1.0', 'max' => _PS_VERSION_);
+	}
 
-    public function install()
-    {
-        return (parent::install() && $this->registerHook('AdminStatsModules'));
-    }
+	public function install()
+	{
+		return (parent::install() && $this->registerHook('AdminStatsModules'));
+	}
 
-    public function hookAdminStatsModules($params)
-    {
-        $engine_params = array(
-            'id' => 'id_customer',
-            'title' => $this->displayName,
-            'columns' => $this->columns,
-            'defaultSortColumn' => $this->default_sort_column,
-            'defaultSortDirection' => $this->default_sort_direction,
-            'emptyMessage' => $this->empty_message,
-            'pagingMessage' => $this->paging_message
-        );
+	public function hookAdminStatsModules($params)
+	{
+		$engine_params = array(
+			'id' => 'id_customer',
+			'title' => $this->displayName,
+			'columns' => $this->columns,
+			'defaultSortColumn' => $this->default_sort_column,
+			'defaultSortDirection' => $this->default_sort_direction,
+			'emptyMessage' => $this->empty_message,
+			'pagingMessage' => $this->paging_message
+		);
 
-        if (Tools::getValue('export')) {
-            $this->csvExport($engine_params);
-        }
+		if (Tools::getValue('export')) {
+			$this->csvExport($engine_params);
+		}
 
-        $this->html = '
+		$this->html = '
 		<div class="panel-heading">
 			'.$this->displayName.'
 		</div>
@@ -143,12 +143,12 @@ class statsbestcustomers extends ModuleGrid
 			<i class="icon-cloud-upload"></i> '.$this->trans('CSV Export', array(), 'Admin.Global').'
 		</a>';
 
-        return $this->html;
-    }
+		return $this->html;
+	}
 
-    public function getData()
-    {
-        $this->query = '
+	public function getData()
+	{
+		$this->query = '
 		SELECT SQL_CALC_FOUND_ROWS c.`id_customer`, c.`lastname`, c.`firstname`, c.`email`,
 			COUNT(co.`id_connections`) as totalVisits,
 			IFNULL((
@@ -168,25 +168,25 @@ class statsbestcustomers extends ModuleGrid
 				AND o.valid
 			), 0) as totalValidOrders
 		FROM `'._DB_PREFIX_.'customer` c
-        INNER JOIN `'._DB_PREFIX_.'orders` o ON o.id_customer = c.id_customer 
+		INNER JOIN `'._DB_PREFIX_.'orders` o ON o.id_customer = c.id_customer 
 		LEFT JOIN `'._DB_PREFIX_.'guest` g ON c.`id_customer` = g.`id_customer`
-        LEFT JOIN `'._DB_PREFIX_.'connections` co ON g.`id_guest` = co.`id_guest` AND co.date_add BETWEEN '.$this->getDate().'
+		LEFT JOIN `'._DB_PREFIX_.'connections` co ON g.`id_guest` = co.`id_guest` AND co.date_add BETWEEN '.$this->getDate().'
 		WHERE o.date_add BETWEEN '.$this->getDate()
-            .Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'c').
-            ' GROUP BY c.`id_customer`, c.`lastname`, c.`firstname`, c.`email`';
+			.Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'c').
+			' GROUP BY c.`id_customer`, c.`lastname`, c.`firstname`, c.`email`';
 
-        if (Validate::IsName($this->_sort)) {
-            $this->query .= ' ORDER BY `'.bqSQL($this->_sort).'`';
-            if (isset($this->_direction) && Validate::isSortDirection($this->_direction)) {
-                $this->query .= ' '.$this->_direction;
-            }
-        }
+		if (Validate::IsName($this->_sort)) {
+			$this->query .= ' ORDER BY `'.bqSQL($this->_sort).'`';
+			if (isset($this->_direction) && Validate::isSortDirection($this->_direction)) {
+				$this->query .= ' '.$this->_direction;
+			}
+		}
 
-        if (($this->_start === 0 || Validate::IsUnsignedInt($this->_start)) && Validate::IsUnsignedInt($this->_limit)) {
-            $this->query .= ' LIMIT '.(int)$this->_start.', '.(int)$this->_limit;
-        }
+		if (($this->_start === 0 || Validate::IsUnsignedInt($this->_start)) && Validate::IsUnsignedInt($this->_limit)) {
+			$this->query .= ' LIMIT '.(int)$this->_start.', '.(int)$this->_limit;
+		}
 
-        $this->_values = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($this->query);
-        $this->_totalCount = Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue('SELECT FOUND_ROWS()');
-    }
+		$this->_values = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($this->query);
+		$this->_totalCount = Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue('SELECT FOUND_ROWS()');
+	}
 }
