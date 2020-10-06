@@ -170,7 +170,7 @@ class statsbestcustomers extends ModuleGrid
 		FROM `'._DB_PREFIX_.'customer` c
 		INNER JOIN `'._DB_PREFIX_.'orders` o ON o.id_customer = c.id_customer
 		LEFT JOIN `'._DB_PREFIX_.'guest` g ON c.`id_customer` = g.`id_customer`
-		LEFT JOIN `'._DB_PREFIX_.'connections` co ON g.`id_guest` = co.`id_guest` AND co.date_add BETWEEN '.$this->getDate().'
+		LEFT JOIN `'._DB_PREFIX_.'connections` co ON g.`id_guest` = co.`id_guest` AND co.date_add BETWEEN ' . $this->getDate() . '
 		WHERE o.date_add BETWEEN '.$this->getDate()
             .Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'c').
             ' GROUP BY c.`id_customer`, c.`lastname`, c.`firstname`, c.`email`';
