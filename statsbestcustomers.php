@@ -95,7 +95,7 @@ class statsbestcustomers extends ModuleGrid
         );
 
         $this->displayName = $this->trans('Best customers', array(), 'Modules.Statsbestcustomers.Admin');
-        $this->description = $this->trans('Adds a list of the best customers to the Stats dashboard.', array(), 'Modules.Statsbestcustomers.Admin');
+        $this->description = $this->trans('Enrich your stats, add a list of the best customers to the dashboard.', array(), 'Modules.Statsbestcustomers.Admin');
         $this->ps_versions_compliancy = array('min' => '1.7.1.0', 'max' => _PS_VERSION_);
     }
 
