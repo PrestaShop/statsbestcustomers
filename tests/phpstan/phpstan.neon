@@ -4,11 +4,10 @@ includes:
 parameters:
   paths:
     # From PHPStan 0.12, paths to check are relative to the neon file
-    - ../../welcome.php
-    - ../../controllers/
-    - ../../OnBoarding/
+    - ../../statsbestcustomers.php
   ignoreErrors:
     - '#Call to method assign\(\) on an unknown class Smarty_Data#'
-    - '#Property TabCore::\$name \(string\) does not accept array.#'
+    - '#Parameter \#1 \$id of class Currency constructor expects null, string given.#'
+    - '#Parameter \#1 \$share of static method ShopCore::addSqlRestriction\(\) expects int, string given.#'
   reportUnmatchedIgnoredErrors: false
   level: 5
