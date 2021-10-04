@@ -52,7 +52,7 @@ class statsbestcustomers extends ModuleGrid
         $this->empty_message = $this->trans('Empty recordset returned', [], 'Modules.Statsbestcustomers.Admin');
         $this->paging_message = $this->trans('Displaying %1$s of %2$s', ['{0} - {1}', '{2}'], 'Admin.Global');
 
-        $currency = new Currency(Configuration::get('PS_CURRENCY_DEFAULT'));
+        $currency = new Currency((int) Configuration::get('PS_CURRENCY_DEFAULT'));
 
         $this->columns = [
             [
@@ -148,7 +148,11 @@ class statsbestcustomers extends ModuleGrid
     public function getData()
     {
         $this->query = '
-		SELECT SQL_CALC_FOUND_ROWS c.`id_customer`, c.`lastname`, c.`firstname`, c.`email`,
+		SELECT SQL_CALC_FOUND_ROWS DISTINCT
+            c.`id_customer`,
+            c.`lastname`,
+            c.`firstname`,
+            c.`email`,
 			COUNT(co.`id_connections`) as totalVisits,
 			IFNULL((
 				SELECT ROUND(SUM(IFNULL(op.`amount`, 0) / cu.conversion_rate), 2)
@@ -167,12 +171,12 @@ class statsbestcustomers extends ModuleGrid
 				AND o.valid
 			), 0) as totalValidOrders
 		FROM `' . _DB_PREFIX_ . 'customer` c
-		INNER JOIN `' . _DB_PREFIX_ . 'orders` o ON o.id_customer = c.id_customer
+		INNER JOIN `' . _DB_PREFIX_ . 'orders` o ON o.`id_customer` = c.`id_customer`
 		LEFT JOIN `' . _DB_PREFIX_ . 'guest` g ON c.`id_customer` = g.`id_customer`
 		LEFT JOIN `' . _DB_PREFIX_ . 'connections` co ON g.`id_guest` = co.`id_guest` AND co.date_add BETWEEN ' . $this->getDate() . '
-		WHERE o.date_add BETWEEN ' . $this->getDate()
-            . Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'c') .
-            ' GROUP BY c.`id_customer`, c.`lastname`, c.`firstname`, c.`email`';
+		WHERE o.date_add BETWEEN ' . $this->getDate() . '
+		' . Shop::addSqlRestriction(Shop::SHARE_CUSTOMER, 'c') . '
+		GROUP BY c.`id_customer`, c.`lastname`, c.`firstname`, c.`email`, o.`id_order`';
 
         if (Validate::IsName($this->_sort)) {
             $this->query .= ' ORDER BY `' . bqSQL($this->_sort) . '`';
