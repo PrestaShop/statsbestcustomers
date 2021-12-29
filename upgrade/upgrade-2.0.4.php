@@ -24,7 +24,7 @@
  *
  * @return bool
  */
-function upgrade_module_2_0_4$module)
+function upgrade_module_2_0_4($module)
 {
     $module->unregisterHook('AdminStatsModules');
     $module->registerHook('displayAdminStatsModules');
