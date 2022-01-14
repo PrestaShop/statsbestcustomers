@@ -40,7 +40,7 @@ class statsbestcustomers extends ModuleGrid
     public function __construct()
     {
         $this->name = 'statsbestcustomers';
-        $this->tab = 'analytics_stats';
+        $this->tab = 'administration';
         $this->version = '2.0.4';
         $this->author = 'PrestaShop';
         $this->need_instance = 0;
